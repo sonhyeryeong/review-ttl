@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팝업창을 만들거야</title>
+    <link rel="stylesheet" href="./trn01/css/reset.css">
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: url(/쿼카.jpg);
+            transform: translate(-50%, -50%);
+        }
+
+        .popup button {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+        }
+
+        .top_banner {
+            position: relative;
+            background: #ff0;
+        }
+
+        .top_banner button {
+            position: absolute;
+            bottom: -20px;
+            right: 100px;
+        }
+
+        .top_banner.on button {
+            transform: rotate(180deg);
+        }
+
+        .side_banner {
+            position: fixed;
+            width: 350px;
+            height: 400px;
+            right: -300px;
+            top: 300px;
+            background: #369;
+            transition: 0.5s;
+        }
+
+        .side_banner.on {
+            right: 0;
+        }
+
+        .side_banner button {
+            transition: 2s;
+        }
+
+        .side_banner.on button {
+            transform: rotate(180deg);
+        }
+
+
+        .totop {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 100px;
+            padding: 20px;
+            color: #fff;
+            background: #333;
+            font-size: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="top_banner">
+        <div class="container">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo aliquam sunt totam odit! Ullam aspernatur nisi
+            dignissimos incidunt a fugiat voluptate tenetur nihil veritatis rem? Sint sapiente enim minima quae tenetur,
+            maiores, cupiditate cumque nobis ea, tempora deleniti earum temporibus harum ipsam omnis nostrum. Distinctio
+            molestiae eaque modi aspernatur tenetur et blanditiis repellat perspiciatis. Maiores nemo sapiente eligendi
+            reprehenderit error! Perspiciatis soluta provident recusandae praesentium esse sunt obcaecati eum autem
+            illo. Ea sed cum perferendis, eos fuga ducimus facere autem aperiam voluptates necessitatibus architecto,
+            quia facilis est molestias dolor iste incidunt molestiae. Quia voluptatem dolorum debitis amet laborum
+            maxime iste.
+        </div>
+        <button>
+            <i class="xi-arrow-top"></i>
+        </button>
+    </div>
+    <section>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, autem fuga architecto cupiditate amet illum
+        nihil placeat labore dolorem! Consectetur beatae, laborum perspiciatis laudantium atque, sint sed dolores velit
+        eveniet ab voluptatibus. Aspernatur eveniet ea tempore, cupiditate, beatae similique, unde ex est iusto
+        assumenda maxime! Magni praesentium similique quasi eos recusandae autem? Ipsam harum quod, impedit libero
+        nobis, perspiciatis distinctio, eius dolorum earum veniam vitae? Quibusdam quaerat in nam maxime quis,
+        asperiores deserunt recusandae aliquam obcaecati praesentium eligendi id inventore suscipit quo officia tempora
+        earum, accusantium vel ducimus porro illum dolorem amet sed. Nesciunt consequatur, quas error expedita molestiae
+        enim!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae dicta et quo? Quidem adipisci ipsam iste
+        laborum ea labore. Ratione, vitae fuga expedita quos totam possimus porro eos ea reprehenderit, aspernatur modi
+        praesentium explicabo quae earum pariatur. Ea labore quia voluptates consectetur natus architecto, tenetur
+        minima tempora maxime. Aliquam eveniet dolorum sunt officiis expedita nesciunt qui at consectetur assumenda
+        ipsam maxime nostrum, culpa iusto! Voluptas ab, repudiandae temporibus ipsam doloremque tenetur explicabo.
+        Laborum ipsam sequi, unde culpa facere perferendis tenetur suscipit ea ad, nam nulla pariatur hic at in
+        provident quod facilis quasi consequatur repellat recusandae temporibus itaque dolore minima. Nulla ullam
+        tempore doloremque exercitationem incidunt animi, at libero amet aliquam mollitia necessitatibus commodi,
+        quibusdam ex veniam nostrum ab officia eos! Accusamus tempore soluta inventore, cupiditate dolore praesentium
+        nobis vitae modi sapiente totam temporibus vel veritatis pariatur? Recusandae necessitatibus aspernatur, sed
+        voluptas quod consequatur quam vitae tenetur cumque sequi. A reprehenderit impedit vel, labore necessitatibus
+        fugit ducimus eum consequuntur voluptatem pariatur molestiae eligendi veritatis expedita, officiis nobis magni
+        dolorum dignissimos recusandae modi esse maiores aliquid dolores. Non sapiente impedit officia aperiam maiores
+        nostrum, harum rem, illum veritatis error assumenda laboriosam minima saepe nihil incidunt ratione suscipit
+        dignissimos eaque. Reprehenderit sunt laboriosam ipsum excepturi, possimus perspiciatis? Tempore perferendis
+        perspiciatis natus pariatur voluptas nihil provident culpa dolores accusantium architecto earum magnam, animi,
+        est veritatis, cumque exercitationem placeat repellat nisi eaque neque esse! Suscipit omnis perspiciatis ut
+        molestias quas asperiores ad fugit culpa totam, impedit soluta porro vero facere explicabo. Quae soluta ipsam
+        culpa voluptates architecto corrupti magni alias voluptas itaque quos debitis aspernatur placeat rerum id, non
+        deleniti nesciunt nulla. Necessitatibus suscipit a sequi commodi libero aspernatur eveniet porro similique
+        consectetur voluptatem ex tempora nulla pariatur saepe sed omnis quis expedita voluptatum voluptates, dolor
+        recusandae nemo laudantium corporis. Fugit, commodi saepe? Dignissimos earum dolore quos maiores nihil tempora
+        praesentium temporibus suscipit tempore beatae et repellendus est, non quae perferendis delectus consequatur
+        libero rem eligendi in nemo animi. Quasi eum architecto alias neque! Blanditiis ullam illum optio temporibus
+        numquam placeat adipisci alias praesentium reiciendis, ducimus facere autem molestias aut atque ex totam debitis
+        ea quas iusto ratione. Maxime amet quidem aperiam corporis deleniti! Voluptates unde doloribus inventore sit
+        harum deleniti omnis totam. Nobis dolores officiis quisquam impedit odit? Cumque possimus, deleniti magnam nam
+        reprehenderit neque doloribus illum ducimus quibusdam repudiandae accusamus velit ab error alias quod veritatis
+        eaque repellat, labore quidem? Excepturi possimus quaerat numquam quos molestias, molestiae laboriosam vel
+        praesentium minus ipsa quae voluptatibus, voluptate ratione in repudiandae, hic quasi sint dignissimos saepe
+        fugit illo! Voluptatibus vero eligendi dolorum facilis temporibus, sit error doloribus accusantium velit. Sint
+        consequuntur autem sequi voluptatem, itaque beatae. Earum error voluptatum repudiandae! Officia, facere debitis.
+        Debitis, consequuntur. Quas perspiciatis quo suscipit est fugit inventore nobis eveniet odio quia vero saepe
+        iure repellendus iusto nulla, qui minus, error ipsam ex tempore esse provident reprehenderit facere eius!
+        Voluptatum, eveniet animi quibusdam eaque nobis inventore culpa, amet blanditiis ab nostrum illo ratione! Labore
+        voluptatem sint qui error, ratione molestiae doloremque!
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab officiis dolores ducimus ipsum error reprehenderit
+        iure nobis nisi consectetur dolore eaque quia fuga earum ipsa, vitae cupiditate quis nam aspernatur veniam
+        numquam voluptate animi accusantium aliquam. Nesciunt, cupiditate ex expedita commodi voluptatibus asperiores
+        ducimus vel laborum, necessitatibus assumenda incidunt magni! Obcaecati, perferendis qui! Alias dignissimos
+        illum nam hic. Blanditiis, eveniet fuga, ipsum quisquam at modi quo neque asperiores provident pariatur possimus
+        itaque perspiciatis maiores nulla exercitationem ex a porro tempore. Dicta quia laudantium debitis error! Qui
+        aspernatur provident atque, ad saepe quibusdam dolor recusandae sequi similique ipsam, numquam nam. Iste quis
+        perspiciatis omnis nemo molestias exercitationem amet minima cumque. Aliquam similique odio deserunt. Quo
+        voluptate voluptates tenetur soluta! Iure soluta nam accusamus porro blanditiis consequuntur dignissimos, minima
+        perferendis qui explicabo vitae praesentium fugiat ad delectus fuga iusto architecto unde rem aspernatur eveniet
+        omnis aperiam reprehenderit excepturi temporibus? Earum maiores est quo voluptas quia temporibus. Modi ullam
+        eius ab eligendi repellat alias beatae perferendis, dolor cupiditate veniam recusandae, doloremque eos
+        voluptates fuga! Et, sunt aspernatur. Sunt deserunt voluptate velit illum neque, vitae laboriosam ipsam
+        voluptates aut, mollitia tempora nisi modi cumque consectetur! Facilis, numquam quaerat? Veritatis nesciunt
+        facere amet ipsum porro culpa, quos sed esse perspiciatis debitis magni deserunt nisi exercitationem
+        dignissimos, unde ad sunt quis illum excepturi non assumenda deleniti iusto reprehenderit minus. Ipsum
+        voluptatem ex at nemo assumenda neque fugiat nesciunt placeat dicta, deserunt recusandae officiis iusto harum
+        quidem repellendus doloremque accusantium non consectetur quisquam deleniti porro dignissimos saepe temporibus.
+        Est aliquid laborum, dolores, nulla ipsa quisquam sequi dolorem libero sunt dolorum adipisci quia quibusdam
+        animi vero possimus quasi aut, illo reprehenderit! Quasi quae voluptatum unde molestias eveniet, dolore
+        blanditiis ipsam odio aliquid quibusdam dignissimos quia impedit quas sit nemo? Quae rerum odio voluptas aut
+        excepturi maiores eaque doloremque repudiandae impedit cum? Voluptates mollitia repellendus dignissimos
+        perferendis reprehenderit aliquid labore quisquam magnam voluptas iusto veniam asperiores, odio necessitatibus
+        accusamus tempore laborum maiores. Aliquam cumque quibusdam blanditiis minus voluptatem nemo, debitis ducimus
+        quos eaque ut excepturi maiores sequi libero expedita saepe velit, facilis suscipit officia, provident et
+        cupiditate deleniti. Laboriosam natus cum sequi adipisci qui ullam, cupiditate earum vero libero, fuga unde
+        facere, ut minus esse. Vitae reiciendis ratione exercitationem voluptate, quaerat fugiat consequuntur corrupti
+        magnam! Esse, minima nostrum recusandae dolores, hic voluptatem officia quasi reiciendis enim eligendi dolore
+        saepe rem culpa repudiandae nisi quisquam alias! Assumenda cumque quisquam facilis?
+    </section>
+    <!-- 사이드베너 -->
+    <div class="side_banner">
+        <button>
+            <i class="xi-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- 팝업창 -->
+    <div class="popup01 popup">
+        <button>Close</button>
+    </div>
+    <div class="popup02 popup">
+        <button>Close</button>
+    </div>
+    <div class="popup03 popup">
+        <button>Close</button>
+    </div>
+    <!--위로 올라가는 아이콘  -->
+    <i class="xi-arrow-top totop"></i>
+
+    <!--제이쿼리로 이벤트만들기  -->
+    <script src="./trn01/js/jquery-1.12.4.min.js"></script>
+    <script>
+        $('.popup button').on('click', function () {
+            $(this).parent().hide();
+        });
+
+        $('.top_banner').on('click', function () {
+            $('.top_banner .container').slideToggle();
+            $(this).toggleClass('on');
+        });
+
+        $('.side_banner button').on('click', function () {
+            $(this).parent().toggleClass('on')
+        });
+
+        $('.totop').on('click', function () {
+            $('html,body').animate({ scrollTop: 0 }, 1000)
+        });
+
+        $(window).on('scroll', function () {
+            let sct = $(window).scrollTop();
+            sct > 200 ? $('.totop').fadeIn() : $('.totop').fadeOut()
+        });
+
+    </script>
+</body>
+
+</html>
