@@ -70,7 +70,7 @@ public class DAO_allproduct {
 	      }
 	      
 	}
-
+	
 	
 	public static void main(String[] args) throws SQLException {
 		DAO_allproduct dao = new DAO_allproduct();

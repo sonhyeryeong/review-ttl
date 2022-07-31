@@ -51,39 +51,6 @@ public class DAO_cart {
 		
 	}
 	
-	//삭제 버튼 누르면
-	//삭제) user_id와, product이름을 받아와서 두개 다 일치하는 거   -> 그 정보 삭제!
-	
-	public int deletecart(String user_id,String product) throws SQLException {
-		String query2 = "delete from cart where user_id = ? and product_Name = ?";
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn= DBUtil.getConnection();
-			pstmt = conn.prepareStatement(query2);
-			pstmt.setString(1, user_id);
-			pstmt.setString(2, product);
-			
-			return pstmt.executeUpdate();
-		}finally {
-			DBUtil.closeStmt(pstmt);
-			DBUtil.closeConn(conn);
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	//읽기)user_id 와 일치하는  db를 읽어 옴  
 	public List<Cart> read(String user_id) throws SQLException{
@@ -130,9 +97,41 @@ public class DAO_cart {
 		}
 		
 	}
+	//유저 아이디를 파라미터로 받아서 
+	//유저 아이디가  담은 상품을 출력함. 
+	public List<String> readcart(String user_id) throws SQLException{
+		String query ="select product from cart where user_id = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt =null;
+		ResultSet rs = null;
+		List<String> list = new ArrayList<>();
+		try {
+			conn = DBUtil.getConnection();
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, user_id); 
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("product"));
+			}
+			
+		}finally {
+			DBUtil.closeRs(rs);
+			DBUtil.closeStmt(pstmt);
+			DBUtil.closeConn(conn);
+		}
+		return list;
+	}
 	
-	
-	
+	public static void main(String[] args) {
+		DAO_cart dao = new DAO_cart();
+		try {
+			System.out.println(dao.readcart("lossryeong"));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 }

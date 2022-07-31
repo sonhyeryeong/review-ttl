@@ -4,6 +4,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -21,7 +24,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-
 public class MainFrame3 extends JFrame {
 
 	JButton loginBtn;
@@ -29,7 +31,6 @@ public class MainFrame3 extends JFrame {
 	public JLabel lbl1;
 	public JLabel lbl2;
 	public JLabel lbl3;
-	int count;
 	DAO_heart daoheart;
 	DAO_cart daocart;
 	private JButton likeBtn1;
@@ -40,23 +41,26 @@ public class MainFrame3 extends JFrame {
 	private JButton getBtn3;
 	private JButton writeBtn;
 	private JButton myBtn;
-	private int countcart;
 	private ImageIcon like;
 	private ImageIcon like2;
 	private ImageIcon addcart;
 	private ImageIcon cancel;
 	private ImageIcon mypageImg;
 	private DAO_allproduct daoallpro;
-	
-	
-///////////////getter setter///////////////////////
-	public int getCount() {
-		return count;
-	}
+	boolean isHeart1;
+	boolean isHeart2;
+	boolean isHeart3;
+	boolean iscart1;
+	boolean iscart2;
+	boolean iscart3;
+	private int liketop1;
+	private int liketop2;
+	private int liketop3;
+	private String listnew1;
+	private String listnew2;
+	private String listnew3;
 
-	public void setCount(int count) {
-		this.count = count;
-	}
+///////////////getter setter///////////////////////
 
 	public JLabel getLbl1() {
 		return lbl1;
@@ -69,23 +73,20 @@ public class MainFrame3 extends JFrame {
 ///////////////getter setter///////////////////////
 
 ///////////// 생성자/////////////////////////////////
-	public MainFrame3(String login_userid,boolean yesno) {
+	public MainFrame3(String login_userid, boolean yesno) {
 		//////////////// 페이지 컴포넌트 생성됨////////////////////
 		super("메인창");
-		//버튼 아이콘들 이미지 경로지정
+		// 버튼 아이콘들 이미지 경로지정
 		mypageImg = new ImageIcon(".\\img\\mypage.png");
 		like = new ImageIcon(".\\img\\likeImg.png");
 		like2 = new ImageIcon(".\\img\\like2.png");
 		addcart = new ImageIcon(".\\img\\add.png");
 		cancel = new ImageIcon(".\\img\\cancel.png");
-		scaleImage(addcart,69,28);
-		
-		
+		scaleImage(addcart, 69, 28);
+
 		// 제일 큰 프레임
 		JPanel pnl = new JPanel();
 
-		
-		
 		// 윗부분
 		JPanel topPnl = new JPanel();
 		JLabel lbl = new JLabel("메인화면 ");
@@ -101,11 +102,9 @@ public class MainFrame3 extends JFrame {
 		topPnl.setLayout(bltop);
 		loginBtn.setText(login_userid);
 
-		
-		
 		// 중간부분
 		JPanel middlePnl = new JPanel();// 중간 전체 감싸는 패널
-		
+
 		// 위 - 좋아요 top3를 감싸는 제일 큰 패널
 		JPanel top3Pnl = new JPanel();
 		// 하나씩 top3를 감싸는 패널(사진,버튼을 한 셋트로 묶을 패널)
@@ -132,23 +131,21 @@ public class MainFrame3 extends JFrame {
 		settingBtn(likeBtn1);
 		settingBtn(likeBtn2);
 		settingBtn(likeBtn3);
-		
-		//좋아요 패널에 구성요소 더하기
+
+		// 좋아요 패널에 구성요소 더하기
 		pnltoplbl1.add(toplbl1);
 		pnltoplbl2.add(toplbl2);
 		pnltoplbl3.add(toplbl3);
 		pnltoplbl1.add(likeBtn1);
 		pnltoplbl2.add(likeBtn2);
 		pnltoplbl3.add(likeBtn3);
-		//좋아요 감싸는 큰 패널에 3개 더하기. 
+		// 좋아요 감싸는 큰 패널에 3개 더하기.
 		top3Pnl.add(pnltoplbl1);
 		top3Pnl.add(pnltoplbl2);
 		top3Pnl.add(pnltoplbl3);
 		top3Pnl.setLayout(new GridLayout(0, 3));
 
-		
-
-		//아래 - 신상품 top3 
+		// 아래 - 신상품 top3
 		// 신상 부분 제일 큰 패널
 		JPanel pnlNew = new JPanel();
 		// 3개 감쌀 패널(사진,버튼을 한 셋트로 묶을 패널)
@@ -159,7 +156,7 @@ public class MainFrame3 extends JFrame {
 		pnllblnew2.setLayout(null);
 		pnllblnew3.setLayout(null);
 
-		//담기 버튼
+		// 담기 버튼
 		getBtn1 = new JButton(addcart);
 		getBtn2 = new JButton(addcart);
 		getBtn3 = new JButton(addcart);
@@ -195,7 +192,7 @@ public class MainFrame3 extends JFrame {
 		pnlNew.add(pnllblnew3);
 		pnlNew.setLayout(new GridLayout(0, 3));
 		/////
-		
+
 		// 중간부분을 가로로 2개 나눈다.
 		middlePnl.add(top3Pnl);
 		middlePnl.add(pnlNew);
@@ -209,7 +206,7 @@ public class MainFrame3 extends JFrame {
 		BoxLayout blbottom = new BoxLayout(bottomPnl, BoxLayout.Y_AXIS);// 입력패널 세로배치
 		bottomPnl.setLayout(blbottom);
 		////////
-		///구성요소 모두 더하기 
+		/// 구성요소 모두 더하기
 		pnl.add(topPnl);
 		pnl.add(middlePnl);
 		pnl.add(bottomPnl);
@@ -220,18 +217,26 @@ public class MainFrame3 extends JFrame {
 		getContentPane().add(pnl);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(850, 850);
-		//////컴포넌트 구성요소 전부 완료
+		////// 컴포넌트 구성요소 전부 완료
 
 ////////////////////////////////////////이벤트 리스너, 다오
-		
+
 		daoallpro = new DAO_allproduct();
 		daoheart = new DAO_heart();
 		daocart = new DAO_cart();
-		
-/////////////좋아요 top3부분		
-		
+
+
+	/////////////좋아요 top3부분		
+		try {
+			liketop1 = daoheart.intliketop().get(0);
+			liketop2 = daoheart.intliketop().get(1);
+			liketop3 = daoheart.intliketop().get(2);
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+		}
+
 		//// 좋아요 top3 사진 출력 부분
-//		 좋아요 top1
+//				 좋아요 top1
 		try {
 			// 좋아요 top1의 사진
 			daoheart.imgliketop3().get(0);
@@ -241,13 +246,13 @@ public class MainFrame3 extends JFrame {
 			ImageIcon convertedImage = new ImageIcon(img);
 			toplbl1.setIcon(scaleImage(convertedImage, 276, 315));
 			// 좋아요 top1의 codiset_id
-			System.out.println("좋아요 탑1 의 코디셋아이디:" + daoheart.intliketop().get(0));
+			System.out.println("좋아요 탑1 의 코디셋아이디:" + liketop1);
 		} catch (MalformedURLException | SQLException e2) {
 			e2.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-//		 좋아요 top2
+//				 좋아요 top2
 		try {
 			// 좋아요 top2의 사진
 			daoheart.imgliketop3().get(1);
@@ -257,13 +262,13 @@ public class MainFrame3 extends JFrame {
 			ImageIcon convertedImage = new ImageIcon(img);
 			toplbl2.setIcon(scaleImage(convertedImage, 276, 315));
 			// 좋아요 top2의 codiset_id
-			System.out.println("좋아요 탑2 의 코디셋아이디:" + daoheart.intliketop().get(1));
+			System.out.println("좋아요 탑2 의 코디셋아이디:" + liketop2);
 		} catch (MalformedURLException | SQLException e2) {
 			e2.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-//		 좋아요 top3
+//				 좋아요 top3
 		try {
 			// 좋아요 top3의 사진
 			daoheart.imgliketop3().get(2);
@@ -273,44 +278,62 @@ public class MainFrame3 extends JFrame {
 			ImageIcon convertedImage = new ImageIcon(img);
 			toplbl3.setIcon(scaleImage(convertedImage, 276, 315));
 			// 좋아요 top3의 codiset_id
-			System.out.println("좋아요 탑3 의 코디셋아이디:" + daoheart.intliketop().get(2));
+			System.out.println("좋아요 탑3 의 코디셋아이디:" + liketop3);
 		} catch (MalformedURLException | SQLException e2) {
 			e2.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		
+
 ///////////////[좋아요]버튼 이벤트 부분 
 		// 좋아요 버튼 두 번 누루면 취소되게 끔
-		count = 0;
+
+		//좋아요 버튼을 눌렀을 상태에 대해 생각 못했다!!!!
+		//로그인 한 유저가 좋아요 한 게 있으면 좋아요 버튼을 눌러진 상태로 셋팅해놓기. 
+		try {
+			for (int i = 0; i < daoheart.likedCodisetId(login_userid).size(); i++) {
+				if (daoheart.likedCodisetId(login_userid).get(i) == liketop1) {
+					likeBtn1.setIcon(like2);
+					isHeart1 = true;
+				} else if (daoheart.likedCodisetId(login_userid).get(i) == liketop2) {
+					likeBtn2.setIcon(like2);
+					isHeart2 = true;
+				} else if (daoheart.likedCodisetId(login_userid).get(i) == liketop3) {
+					likeBtn3.setIcon(like2);
+					isHeart3 = true;
+				}
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		likeBtn1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				++count;
-				//취소부분
-				if (count % 2 == 0) {
+				// 취소부분
+				if (isHeart1 == true) {
 					System.out.println("좋아요 취소 -> 좋아요 db에 데이터 삭제");
 					likeBtn1.setIcon(like);
-					
-					try {
-						System.out.println("유저아이디:" +login_userid);
-						daoheart.intliketop().get(0);
-						System.out.println("좋아요 top1 코디셋아이디:"+ daoheart.intliketop().get(0));
-						daoheart.delete(login_userid, daoheart.intliketop().get(0));
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-				//좋아요 클릭부분
-				} else {
-					System.out.println("좋아요 버튼 클릭 -> 좋아요 db에 데이터 삽입");
-					likeBtn1.setIcon(like2);
+					isHeart1 = false;
 					try {
 						System.out.println("유저아이디:" + login_userid);
 						daoheart.intliketop().get(0);
-						System.out.println("좋아요 top1 코디셋아이디:"+ daoheart.intliketop().get(0));
-						daoheart.create(login_userid, daoheart.intliketop().get(0));
+						System.out.println("좋아요 top1 코디셋아이디:" + liketop1);
+						daoheart.delete(login_userid, liketop1);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					// 좋아요 클릭부분
+				} else {
+					System.out.println("좋아요 버튼 클릭 -> 좋아요 db에 데이터 삽입");
+					likeBtn1.setIcon(like2);
+					isHeart1 = true;
+					try {
+						System.out.println("유저아이디:" + login_userid);
+						daoheart.intliketop().get(0);
+						System.out.println("좋아요 top1 코디셋아이디:" + liketop1);
+						daoheart.create(login_userid, liketop1);
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
@@ -320,28 +343,29 @@ public class MainFrame3 extends JFrame {
 		likeBtn2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				++count;
-				//취소 부분
-				if (count % 2 == 0) {
+				// 취소부분
+				if (isHeart2 == true) {
 					System.out.println("좋아요 취소 -> 좋아요 db에 데이터 삭제");
 					likeBtn2.setIcon(like);
+					isHeart2 = false;
 					try {
 						System.out.println("유저아이디:" + login_userid);
 						daoheart.intliketop().get(1);
-						System.out.println("좋아요 top2 코디셋아이디:"+ daoheart.intliketop().get(1));
-						daoheart.delete(login_userid, daoheart.intliketop().get(1));
+						System.out.println("좋아요 top2 코디셋아이디:" + liketop2);
+						daoheart.delete(login_userid, liketop2);
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-				// 좋아요 클릭
+					// 좋아요 클릭부분
 				} else {
 					System.out.println("좋아요 버튼 클릭 -> 좋아요 db에 데이터 삽입");
 					likeBtn2.setIcon(like2);
+					isHeart2 = true;
 					try {
 						System.out.println("유저아이디:" + login_userid);
 						daoheart.intliketop().get(1);
-						System.out.println("좋아요 top2 코디셋아이디:"+ daoheart.intliketop().get(1));
-						daoheart.create(login_userid, daoheart.intliketop().get(1));
+						System.out.println("좋아요 top2 코디셋아이디:" + liketop2);
+						daoheart.create(login_userid, liketop2);
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
@@ -351,65 +375,44 @@ public class MainFrame3 extends JFrame {
 		likeBtn3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				++count;
-				//취소 부분
-				if (count % 2 == 0) {
+				// 취소부분
+				if (isHeart3 == true) {
 					System.out.println("좋아요 취소 -> 좋아요 db에 데이터 삭제");
 					likeBtn3.setIcon(like);
+					isHeart3 = false;
 					try {
 						System.out.println("유저아이디:" + login_userid);
 						daoheart.intliketop().get(2);
-						System.out.println("좋아요 top3 코디셋아이디:"+ daoheart.intliketop().get(2));
-						daoheart.delete(login_userid, daoheart.intliketop().get(2));
+						System.out.println("좋아요 top3 코디셋아이디:" + liketop3);
+						daoheart.delete(login_userid, liketop3);
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-				//좋아요 클릭
+					// 좋아요 클릭부분
 				} else {
 					System.out.println("좋아요 버튼 클릭 -> 좋아요 db에 데이터 삽입");
 					likeBtn3.setIcon(like2);
+					isHeart3 = true;
 					try {
 						System.out.println("유저아이디:" + login_userid);
 						daoheart.intliketop().get(2);
-						System.out.println("좋아요 top3 코디셋아이디:"+ daoheart.intliketop().get(2));
-						daoheart.create(login_userid, daoheart.intliketop().get(2));
+						System.out.println("좋아요 top3 코디셋아이디:" + liketop3);
+						daoheart.create(login_userid, liketop3);
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		});
-		
-		
-		//로그인 한 유저가 좋아요 한 게 있으면 좋아요 버튼을 눌러진 상태로 셋팅해놓기. 
-		try {
-			for(int i =0; i <daoheart.likedCodisetId(login_userid).size(); i++) {
-				if(daoheart.likedCodisetId(login_userid).get(i)==daoheart.intliketop().get(0)) {
-					likeBtn1.setIcon(like2);
-				}
-				else if(daoheart.likedCodisetId(login_userid).get(i)== daoheart.intliketop().get(1)) {
-					likeBtn2.setIcon(like2);
-				}
-				else if(daoheart.likedCodisetId(login_userid).get(i)== daoheart.intliketop().get(2)) {
-					likeBtn3.setIcon(like2);
-				}
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 
-		
+
 		// 클릭한 코디셋의 상세보기 페이지 들어가는 부분.
 		pnltoplbl1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("글 눌렀음! -> 글 상세보기 페이지로 이동합니다.");
 				LookCodiset lookCodiset = null;
-				try {
-					lookCodiset = new LookCodiset(MainFrame3.this, login_userid,daoheart.intliketop().get(0),yesno);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				lookCodiset = new LookCodiset(MainFrame3.this, login_userid, liketop1, yesno);
 				lookCodiset.setVisible(true);
 			}
 		});
@@ -418,11 +421,7 @@ public class MainFrame3 extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("글 눌렀음! -> 글 상세보기 페이지로 이동합니다.");
 				LookCodiset lookCodiset = null;
-				try {
-					lookCodiset = new LookCodiset(MainFrame3.this, login_userid,daoheart.intliketop().get(1),yesno);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				lookCodiset = new LookCodiset(MainFrame3.this, login_userid,liketop2, yesno);
 				lookCodiset.setVisible(true);
 			}
 		});
@@ -431,18 +430,41 @@ public class MainFrame3 extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("글 눌렀음! -> 글 상세보기 페이지로 이동합니다.");
 				LookCodiset lookCodiset = null;
-				try {
-					lookCodiset = new LookCodiset(MainFrame3.this, login_userid,daoheart.intliketop().get(2),yesno);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				lookCodiset = new LookCodiset(MainFrame3.this, login_userid, liketop3, yesno);
 				lookCodiset.setVisible(true);
 			}
 		});
 
-
 /////////////// 아래 - 신상품 부분
-		countcart = 0;//담기 버튼 카운트 하는 변수
+		try {
+			listnew1 = daoallpro.listnew3().get(0);
+			listnew2 = daoallpro.listnew3().get(1);
+			listnew3 = daoallpro.listnew3().get(2);
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+
+		//로그인 한 유저가 담은게 있으면 카트 버튼을 눌러진 상태로 셋팅해놓기. 
+		try {
+			for (int i = 0; i < daocart.readcart(login_userid).size(); i++) {
+				if(listnew1.equals(daocart.readcart(login_userid).get(i))) {
+					getBtn1.setIcon(cancel);
+					iscart1 =true;
+				}
+				if(listnew2.equals(daocart.readcart(login_userid).get(i))) {
+					getBtn2.setIcon(cancel);
+					iscart2 =true;
+				}
+				if(listnew3.equals(daocart.readcart(login_userid).get(i))) {
+					getBtn3.setIcon(cancel);
+					iscart3 =true;
+				}
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		
 		// [담기] 버튼 누루면 cart테이블에 정보 삽입
@@ -450,19 +472,19 @@ public class MainFrame3 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					++countcart;
-					if (countcart % 2 == 0) {
-						
+					if (iscart1 ==true) {
 						System.out.println("담기 취소 -> cart db에 데이터 삭제");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(0));
-						daocart.delete(login_userid, daoallpro.listnew3().get(0));
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew1);
+						daocart.delete(login_userid, listnew1);
 						getBtn1.setIcon(addcart);
-					}else {
+						iscart1 =false;
+					} else {
 						System.out.println("담기  -> cart테이블에 product이름을 넣습니다.");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(0));
-						daocart.create(login_userid, daoallpro.listnew3().get(0));
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew1);
+						daocart.create(login_userid, listnew1);
 						getBtn1.setIcon(cancel);
-						
+						iscart1=true;
+
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -473,19 +495,18 @@ public class MainFrame3 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					++countcart;
-					if (countcart % 2 == 0) {
-						
+					if (iscart2 ==true) {
 						System.out.println("담기 취소 -> cart db에 데이터 삭제");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(1));
-						daocart.delete(login_userid, daoallpro.listnew3().get(1));
-						getBtn2.setText("담기");
-					}else {
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew2);
+						daocart.delete(login_userid,listnew2);
+						getBtn2.setIcon(addcart);
+						iscart2 =false;
+					} else {
 						System.out.println("담기  -> cart테이블에 product이름을 넣습니다.");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(1));
-						daocart.create(login_userid, daoallpro.listnew3().get(1));
-						getBtn2.setText("취소");
-						
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew2);
+						daocart.create(login_userid, listnew2);
+						getBtn2.setIcon(cancel);
+						iscart2=true;
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -496,19 +517,18 @@ public class MainFrame3 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					++countcart;
-					if (countcart % 2 == 0) {
-						
+					if (iscart3 ==true) {
 						System.out.println("담기 취소 -> cart db에 데이터 삭제");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(2));
-						daocart.delete(login_userid, daoallpro.listnew3().get(2));
-						getBtn3.setText("담기");
-					}else {
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew3);
+						daocart.delete(login_userid, listnew3);
+						getBtn3.setIcon(addcart);
+						iscart3 = false;
+					} else {
 						System.out.println("담기  -> cart테이블에 product이름을 넣습니다.");
-						System.out.println("유저아이디:"+login_userid+"상품명:"+daoallpro.listnew3().get(2));
-						daocart.create(login_userid, daoallpro.listnew3().get(2));
-						getBtn3.setText("취소");
-						
+						System.out.println("유저아이디:" + login_userid + "상품명:" + listnew3);
+						daocart.create(login_userid, listnew3);
+						getBtn3.setIcon(cancel);
+						iscart3=true;
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -516,9 +536,8 @@ public class MainFrame3 extends JFrame {
 			}
 		});
 
-		
 		// 최근 신상품 3개 사진 출력
-		//신상품1
+		// 신상품1
 		try {
 
 			InputStream in = daoallpro.imgnew3().get(0).getBinaryStream();
@@ -532,7 +551,7 @@ public class MainFrame3 extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		//신상품2
+		// 신상품2
 		try {
 			InputStream in = daoallpro.imgnew3().get(1).getBinaryStream();
 			BufferedImage blobImage = ImageIO.read(in);
@@ -545,7 +564,7 @@ public class MainFrame3 extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		//신상품3
+		// 신상품3
 		try {
 			InputStream in = daoallpro.imgnew3().get(2).getBinaryStream();
 			BufferedImage blobImage = ImageIO.read(in);
@@ -558,7 +577,18 @@ public class MainFrame3 extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+				
 		
+		
+
+		
+		f5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new MainFrame3("lossryeong",true).setVisible(true);
+			}
+		});
 		
 		
 		
@@ -597,8 +627,7 @@ public class MainFrame3 extends JFrame {
 
 	}
 
-	
-	//버튼 예쁘게 셋팅하기~~~
+	// 버튼 예쁘게 셋팅하기~~~
 	public void settingBtn(JButton btn) {
 		btn.setBounds(102, 325, 69, 28);
 		btn.setPreferredSize(new Dimension(32, 32));
@@ -607,10 +636,15 @@ public class MainFrame3 extends JFrame {
 		btn.setFocusPainted(false);// 버튼 눌렀을 때 외곽선 안 보이게
 	}
 
-
 	public static void main(String[] args) {
-		MainFrame3 mainframe = new MainFrame3("lossryeong",false);
+		MainFrame3 mainframe = new MainFrame3("lossryeong", true);
 		mainframe.setVisible(true);
+//		mainframe.addFocusListener(new FocusAdapter() {
+//			@Override
+//			public void focusGained(FocusEvent e) {
+//				super.focusGained(e);
+//			}
+//		});
 	}
 
 }

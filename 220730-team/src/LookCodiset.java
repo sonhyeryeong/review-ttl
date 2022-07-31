@@ -33,7 +33,7 @@ import javax.swing.border.LineBorder;
  * 
  * */
 public class LookCodiset extends JDialog {
-	int count;
+	boolean isheart;
 	String login_userId;
 	int liketop;
 	int liketop2;
@@ -45,12 +45,12 @@ public class LookCodiset extends JDialog {
 	private JButton getBtn2;
 	boolean loginyesno;
 	private List<JButton> getBtn;
+	private DAO_allproduct daoallpro;
 	//MainFrame3를 owner 로 쓴다. 
 	//로그인 여부를 생성자로 받아옴~~~~~~~~~~
 	public LookCodiset(JFrame owner,String login_userId, int liketop,boolean loginyesno){
 /////////////////생성자 시작~~~~		
 		super(owner,true);
-		count =0;
 		countcart =0;
 		ImageIcon addcart = new ImageIcon(".\\img\\add.png");
 		ImageIcon cancel = new ImageIcon(".\\img\\cancel.png");
@@ -58,7 +58,7 @@ public class LookCodiset extends JDialog {
 		DAO_codiset daocodiset = new DAO_codiset();
 		DAO_cart daocart = new DAO_cart();
 		DAO_heart daoheart = new DAO_heart();
-
+		daoallpro = new DAO_allproduct();
 		
 		
 		
@@ -131,6 +131,7 @@ public class LookCodiset extends JDialog {
 		List<JLabel> photo = new ArrayList<JLabel>();
 		List<JLabel> text = new ArrayList<JLabel>();
 		getBtn = new ArrayList<JButton>();
+		List<Boolean> iscart = new ArrayList<Boolean>();
 		try {
 			for(int i =0; i<daocodiset.codisetproname(liketop).size();i++) {
 				//컴포넌트 생성
@@ -139,11 +140,13 @@ public class LookCodiset extends JDialog {
 				JLabel text2 = new JLabel("정보가 들어가는 부분");
 				getBtn2 = new JButton(addcart);
 				settingBtn(getBtn2);
+				boolean iscart2 = false;
 				//각 컴포넌트들을 배열에 담는다. 
 				component.add(component2);
 				photo.add(photo2);
 				text.add(text2);
 				getBtn.add(getBtn2);
+				iscart.add(iscart2);
 				
 				//하나의 패널에 컴포넌트들을 담는다. 
 				component2.add(photo2);
@@ -205,16 +208,31 @@ public class LookCodiset extends JDialog {
 		
 /////////////////////////이벤트
 		
+		/////좋아요!!!!!
+		//좋아요 했던 코디셋 확인해서 버튼 셋팅 
+		try {
+			//코디셋 아이디
+			for(int i =0; i< daoheart.likedCodisetId(login_userId).size();i++) {
+				if(daoheart.likedCodisetId(login_userId).get(i) == liketop) {
+					likeBtn.setIcon(like2);
+					isheart =true;
+				}
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
 		//[좋아요] 버튼 누르면 좋아요 테이블에 담기는거, 두 번 누르면 삭제되는거   
 		likeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("좋아요 버튼 눌렀음");
-				++count;
-				if (count%2==0) {
+				//좋아요가 된 상태라면
+				if (isheart==true) {
 					System.out.println("좋아요 취소 -> 좋아요 db에 데이터 삭제");
 					likeBtn.setIcon(like);
-					
+					isheart=false;
 					try {
 						System.out.println("유저아이디:" + login_userId +" 코디셋 번호: "+ liketop + "가 삭제됩니다.");
 						daoheart.delete(login_userId, liketop);
@@ -225,6 +243,7 @@ public class LookCodiset extends JDialog {
 				} else {
 					System.out.println("좋아요 버튼 클릭 -> 좋아요 db에 데이터 삽입");
 					likeBtn.setIcon(like2);
+					isheart=true;
 					try {
 						System.out.println("유저아이디:" + login_userId+" 코디셋 번호: "+ liketop+"가 추가됩니다.");
 						daoheart.create(login_userId, liketop);
@@ -268,6 +287,22 @@ public class LookCodiset extends JDialog {
 			e1.printStackTrace();
 		}
 		
+
+		
+		
+		//로그인한 유저가 상품 담아놓은게 있으면 아이콘 변경하기!!!
+		try {
+			for(int j =0; j<daocart.readcart(login_userId).size();j++) {
+				for (int i = 0; i <daocodiset.codisetproname(liketop).size(); i++) {
+					if(daocodiset.codisetproname(liketop).get(i).equals(daocart.readcart(login_userId).get(j))){
+						getBtn.get(i).setIcon(cancel);
+						iscart.set(i,true);
+					}
+				}
+			}
+		} catch (SQLException | MalformedURLException e1) {
+			e1.printStackTrace();
+		}
 		
 		///[담기]버튼을 누르면 cart 테이블에 담아지고, 
 		//두 번 누르면 cart 테이블에서 삭제된다. 
@@ -280,16 +315,18 @@ public class LookCodiset extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							++countcart;
-							if (countcart % 2 == 0) {
+							if (iscart.get(whatwhat)==true) {
 								System.out.println("담기 취소 -> cart db에 데이터 삭제");
 								System.out.println("유저아이디:"+login_userId+"상품명:"+productname);
 								daocart.delete(login_userId, productname);
 								getBtn.get(whatwhat).setIcon(addcart);
+								iscart.set(whatwhat,false);
 							}else {
 								System.out.println("담기  -> cart테이블에 product이름을 넣습니다.");
 								System.out.println("유저아이디:"+login_userId+"상품명:"+productname);
 								daocart.create(login_userId,productname);
 								getBtn.get(whatwhat).setIcon(cancel);
+								iscart.set(whatwhat,true);
 							}
 						} catch (SQLException e1) {
 							e1.printStackTrace();
@@ -302,17 +339,7 @@ public class LookCodiset extends JDialog {
 		}
 		
 		
-		//좋아요 했던 코디셋 확인해서 버튼 셋팅 
-		try {
-			//코디셋 아이디
-			for(int i =0; i< daoheart.likedCodisetId(login_userId).size();i++) {
-				if(daoheart.likedCodisetId(login_userId).get(i) == liketop) {
-					likeBtn.setIcon(like2);
-				}
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		
 //////////////////////생성자 끝 		
 	}
 	
